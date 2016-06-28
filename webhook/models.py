@@ -8,7 +8,7 @@ class NewLead(models.Model):
     last_name = models.CharField(max_length=120)
     email = models.EmailField(max_length=254, unique=True)
     telephone = models.CharField(max_length=120)
-    form_id = models.CharField(max_length=120)
+    form_id = models.CharField(max_length=120, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
