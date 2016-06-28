@@ -1,0 +1,1 @@
+web: gunicorn fb_leads.wsgi --log-file -
