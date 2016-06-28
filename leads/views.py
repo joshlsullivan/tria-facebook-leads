@@ -7,4 +7,4 @@ def get_leads(request):
     clients = Client.objects.all()
     latest_leads = NewLead.objects.order_by('-date_created')[:5]
     context = {'latest_leads': latest_leads}
-    return render(request, 'client/index.html', context)
+    return render(request, 'leads/index.html', context)
