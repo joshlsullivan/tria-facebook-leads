@@ -47,13 +47,14 @@ class WebhookView(generic.View):
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
         lead = Lead(lead_id)
         data = lead.remote_read()
-        email = data['field_data'][0]['values']
-        first_name = data['field_data'][1]['values']
-        telephone = data['field_data'][2]['values']
-        last_name = data['field_data'][3]['values']
-        form_id = data['form_id']
+        email = str(data['field_data'][0]['values'])
+        first_name = str(data['field_data'][1]['values'])
+        telephone = str(data['field_data'][2]['values'])
+        last_name = str(data['field_data'][3]['values'])
+        form_id = str(data['form_id'])
         e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id)
         e.save()
+        break
         #send_tagged_message()
         #print(created, form_id, first_name, last_name, email, telephone)
         return HttpResponse(data)
