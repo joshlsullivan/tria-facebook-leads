@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from .models import NewLead
-from client.models import Client
+from django.contrib.auth.models import User
 from facebookads.api import FacebookAdsApi
 from facebookads import objects
 from facebookads.adobjects.lead import Lead
@@ -47,10 +47,10 @@ class WebhookView(generic.View):
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
         lead = Lead(lead_id)
         data = lead.remote_read()
-        first_name = data['field_data'][0]['values']
-        last_name = data['field_data'][1]['values']
-        email = data['field_data'][2]['values']
-        telephone = data['field_data'][3]['values']
+        email = data['field_data'][0]['values']
+        first_name = data['field_data'][1]['values']
+        telephone = data['field_data'][2]['values']
+        last_name = data['field_data'][3]['values']
         form_id = data['form_id']
         e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id)
         e.save()
