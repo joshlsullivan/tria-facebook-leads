@@ -54,7 +54,7 @@ class WebhookView(generic.View):
         form_id = str(data['form_id'])
         e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id)
         e.save()
-        break
+            break
         #send_tagged_message()
         #print(created, form_id, first_name, last_name, email, telephone)
         return HttpResponse(data)
