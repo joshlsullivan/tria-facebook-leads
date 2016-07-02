@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 from .models import NewLead
+from client.models import Client
 from django.contrib.auth.models import User
 from facebookads.api import FacebookAdsApi
 from facebookads import objects
@@ -43,18 +44,25 @@ class WebhookView(generic.View):
         return generic.View.dispatch(self, request, *args, **kwargs)
         
     def post(self, request, *args, **kwargs):
-        incoming_lead = json.loads(self.request.body.decode('utf-8'))
+        incoming_lead = json.loads(self.request.body)
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
         lead = Lead(lead_id)
-        data = lead.remote_read()
-        email = str(data['field_data'][0]['values'])
-        first_name = str(data['field_data'][1]['values'])
-        telephone = str(data['field_data'][2]['values'])
-        last_name = str(data['field_data'][3]['values'])
+        fields=[
+            Lead.Field.form_id, 
+            Lead.Field.created_time,
+            Lead.Field.id,
+            Lead.Field.field_data,
+            Lead.Field.ad_id,
+        ]
+        data = lead.remote_read(fields=fields)
+        first_name = data['field_data'][0]['values'][0].encode('utf-8')
+        last_name = data['field_data'][1]['values'][0].encode('utf-8')
+        email = data['field_data'][2]['values'][0].encode('utf-8')
+        telephone = data['field_data'][3]['values'][0].encode('utf-8')
+        leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
+        ad_id = str(data['ad_id'])
         if data:
-            #e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id)
-            #e.save()
-        #send_tagged_message()
-            print(created, form_id, first_name, last_name, email, telephone)
+            e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+            e.save()
         return HttpResponse()
