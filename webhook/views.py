@@ -20,19 +20,23 @@ FacebookAdsApi.init(app_id, app_secret, access_token)
 
 mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
 
-def send_tagged_message():
+@xframe_options_exempt
+def send_tagged_message(client_email, first_name, last_name, email, telephone, client_first_name, client_last_name):
     return requests.post(
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
         auth=("api", mg_api),
-        data={"from": "Josh Sullivan <josh@magnolia.technology>",
-              "to": client_email,
-              "subject": "New Lead - {0} {1}".format(first_name, last_name),
-              "text": """Hi there, you have a new lead. Here's the info:
-              First name: {0}
-              Last name: {1}
-              Email: {2}
-              Telephone: {3}""".format(first_name, last_name, email, telephone),
-              "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads"]})
+        data={
+            "from": "Josh Sullivan <josh@magnolia.technology>",
+            "to": client_email,
+            "subject": "New Lead - {0} {1}".format(first_name, last_name),
+            "text": """Hi there, you have a new lead. Here's the info:
+            First name: {0}
+            Last name: {1}
+            Email: {2}
+            Telephone: {3}""".format(first_name, last_name, email, telephone),
+            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads"]
+        }
+    )
 
 class WebhookView(generic.View):
     #Verifies the toke with Facebook app
@@ -46,7 +50,6 @@ class WebhookView(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
     
-    @xframe_options_exempt
     def post(self, request, *args, **kwargs):
         incoming_lead = json.loads(self.request.body)
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
@@ -75,16 +78,5 @@ class WebhookView(generic.View):
                 if data:
                     e = NewLead(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                     e.save()
-                    return requests.post(
-                        "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
-                        auth=("api", mg_api),
-                        data={"from": "Josh Sullivan <josh@magnolia.technology>",
-                            "to": client_email,
-                            "subject": "New Lead - {0} {1}".format(first_name, last_name),
-                            "text": """Hi there, you have a new lead. Here's the info:
-                              First name: {0}
-                              Last name: {1}
-                              Email: {2}
-                              Telephone: {3}""".format(first_name, last_name, email, telephone),
-                            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads"]})
+                    def send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
