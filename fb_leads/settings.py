@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'webhook',
     'client',
     'leads',
+    'home',
 ]
 
 MIDDLEWARE_CLASSES = [
