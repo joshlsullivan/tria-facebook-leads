@@ -19,7 +19,8 @@ from webhook import views
 from leads import views
 
 urlpatterns = [
-    url(r'^$', views.get_leads, name='leads'),
+    url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^webhook/', include('webhook.urls')),
+    url(r'^leads/', include('leads.urls')),
 ]
