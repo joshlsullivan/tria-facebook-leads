@@ -1,7 +1,9 @@
+from django.db import models
 from django.contrib import admin
 from .models import Leads
 
 class NewLeadAdmin(admin.ModelAdmin):
-    fields = ['first_name', 'last_name', 'email', 'telephone', 'leadgen_id', 'form_id', 'ad_id']
+    list_display = ('first_name', 'last_name', 'email', 'telephone', 'client')
+    list_filter = ('date_created', 'has_contacted')
     
 admin.site.register(Leads, NewLeadAdmin)

@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib import admin
 
 # Create your models here.
 class Leads(models.Model):
@@ -17,6 +19,14 @@ class Leads(models.Model):
     
     class Meta:
         verbose_name_plural = "Leads"
-
+        
+    def client(self):
+        all_clients = User.objects.all()
+        all_leads = Leads.objects.all()
+        for client in all_clients:
+            for lead in all_leads:
+                if client.client.form_id == lead.form_id:
+                    return ("%s %s" % (client.first_name, client.last_name))
+            
     def __str__(self):
         return self.email
