@@ -14,6 +14,9 @@ class Leads(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     has_contacted = models.BooleanField(default=False)
     notes = models.CharField(max_length=200, blank=True)
+    
+    class Meta:
+        verbose_name_plural = "Leads"
 
     def __str__(self):
         return self.email
