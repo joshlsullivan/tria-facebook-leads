@@ -3,19 +3,19 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
-from webhook.models import NewLead
+from .models import Leads
 from client.models import Client
 from django.utils import timezone
 
 def index(request):
-    all_leads = NewLead.objects.all()
+    all_leads = Leads.objects.all()
     context = {
         'all_leads': all_leads,
     }
     return render(request, 'leads/index.html', context)
 
 def get_leadgen_id():
-    all_leads = NewLead.objects.all()
+    all_leads = Leads.objects.all()
     for lead in all_leads:
         return lead.leadgen_id
 

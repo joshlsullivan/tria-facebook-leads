@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
-from .models import NewLead
+#from .models import NewLead
 from client.models import Client
 from leads.models import Leads
 from django.contrib.auth.models import User
