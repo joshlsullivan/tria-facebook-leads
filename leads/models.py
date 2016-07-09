@@ -5,10 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 
 # Create your models here.
-def get_leads():
-    all_leads = Leads.objects.all()
-    for leads in all_leads:
-        return leads.form_id
         
 class Leads(models.Model):
     first_name = models.CharField(max_length=120)
@@ -25,11 +21,11 @@ class Leads(models.Model):
     class Meta:
         verbose_name_plural = "Leads"
         
-    def client(self):
+    def get_client(self):
         all_clients = User.objects.all()
-        for i in all_clients:
-            if u.client.form_id == get_leads():
-                return ("%s %s" % (u.first_name, u.last_name))
+        for client in all_clients:
+            if self.form_id == client.client.form_id:
+                return ("%s %s" % (client.first_name, client.last_name))
             
     def __str__(self):
         return self.email
