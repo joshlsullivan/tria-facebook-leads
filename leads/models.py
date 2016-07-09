@@ -20,7 +20,7 @@ class Leads(models.Model):
     class Meta:
         verbose_name_plural = "Leads"
     
-    def get_leads(self):
+    def get_leads():
         all_leads = Leads.objects.all()
         for leads in all_leads:
             return leads.form_id
