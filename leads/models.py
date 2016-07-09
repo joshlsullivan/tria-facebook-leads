@@ -23,10 +23,9 @@ class Leads(models.Model):
     def client(self):
         all_clients = User.objects.all()
         all_leads = Leads.objects.all()
-        for client in all_clients:
-            for lead in all_leads:
-                if client.client.form_id == lead.form_id:
-                    return ("%s %s" % (client.first_name, client.last_name))
+        for client in all_clients and lead in all_leads:
+            if client.client.form_id == lead.form_id:
+                return ("%s %s" % (client.first_name, client.last_name))
             
     def __str__(self):
         return self.email
