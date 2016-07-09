@@ -22,8 +22,7 @@ class Leads(models.Model):
         
     def client(self):
         all_clients = User.objects.all()
-        all_leads = Leads.objects.all()
-        for client in all_clients and lead in all_leads:
+        for client in all_clients:
             if client.client.form_id == lead.form_id:
                 return ("%s %s" % (client.first_name, client.last_name))
             
