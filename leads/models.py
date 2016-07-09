@@ -19,11 +19,16 @@ class Leads(models.Model):
     
     class Meta:
         verbose_name_plural = "Leads"
+    
+    def get_leads(self):
+        all_leads = Leads.objects.all()
+        for leads in all_leads:
+            return leads.form_id
         
     def client(self):
         all_clients = User.objects.all()
         for client in all_clients:
-            if client.client.form_id == lead.form_id:
+            if client.client.form_id == get_leads():
                 return ("%s %s" % (client.first_name, client.last_name))
             
     def __str__(self):
