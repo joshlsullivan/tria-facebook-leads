@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 
 # Create your models here.
+def get_leads():
+    all_leads = Leads.objects.all()
+    for leads in all_leads:
+        return leads.form_id
+        
 class Leads(models.Model):
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
@@ -19,11 +24,6 @@ class Leads(models.Model):
     
     class Meta:
         verbose_name_plural = "Leads"
-    
-    def get_leads():
-        all_leads = Leads.objects.all()
-        for leads in all_leads:
-            return leads.form_id
         
     def client(self):
         all_clients = User.objects.all()
