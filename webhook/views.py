@@ -34,6 +34,12 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         }
     )
 
+def get_values(name):
+    for data_element in data.get('field_data'):
+        if data_element.get('name') == name:
+            return data_element.get('values')
+    return None
+
 class WebhookView(generic.View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
@@ -58,10 +64,14 @@ class WebhookView(generic.View):
             Lead.Field.ad_id,
         ]
         data = lead.remote_read(fields=fields)
-        first_name = data['field_data'][0]['values'][0].encode('utf-8')
-        last_name = data['field_data'][1]['values'][0].encode('utf-8')
-        email = data['field_data'][2]['values'][0].encode('utf-8')
-        telephone = data['field_data'][3]['values'][0].encode('utf-8')
+        first_name = get_values('first_name')[0]
+        last_name = get_values('last_name')[0]
+        email = get_values('email')[0]
+        telephone = get_values('phone_number')[0]
+        #first_name = data['field_data'][0]['values'][0].encode('utf-8')
+        #last_name = data['field_data'][1]['values'][0].encode('utf-8')
+        #email = data['field_data'][2]['values'][0].encode('utf-8')
+        #telephone = data['field_data'][3]['values'][0].encode('utf-8')
         leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
