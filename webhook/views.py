@@ -34,12 +34,6 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         }
     )
 
-def get_values(name):
-    for data_element in data.get('field_data'):
-        if data_element.get('name') == name:
-            return data_element.get('values')
-    return None
-
 class WebhookView(generic.View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
@@ -51,6 +45,12 @@ class WebhookView(generic.View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
+    
+    def get_values(self, name):
+        for data_element in data.get('field_data'):
+            if data_element.get('name') == name:
+                return data_element.get('values')
+        return None
     
     def post(self, request, *args, **kwargs):
         incoming_lead = json.loads(self.request.body)
