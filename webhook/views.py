@@ -64,10 +64,10 @@ class WebhookView(generic.View):
             Lead.Field.ad_id,
         ]
         data = lead.remote_read(fields=fields)
-        first_name = self.get_values('first_name')[0]
-        last_name = self.get_values('last_name')[0]
-        email = self.get_values('email')[0]
-        telephone = self.get_values('phone_number')[0]
+        first_name = get_values('first_name')[0]
+        last_name = get_values('last_name')[0]
+        email = get_values('email')[0]
+        telephone = get_values('phone_number')[0]
         #first_name = data['field_data'][0]['values'][0].encode('utf-8')
         #last_name = data['field_data'][1]['values'][0].encode('utf-8')
         #email = data['field_data'][2]['values'][0].encode('utf-8')
