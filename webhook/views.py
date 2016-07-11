@@ -35,17 +35,6 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
     )
 
 class WebhookView(generic.View):
-    incoming_lead = json.loads(self.request.body)
-    lead = Lead(lead_id)
-    fields=[
-        Lead.Field.form_id, 
-        Lead.Field.created_time,
-        Lead.Field.id,
-        Lead.Field.field_data,
-        Lead.Field.ad_id,
-    ]
-    data = lead.remote_read(fields=fields)
-    
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
         if self.request.GET['hub.verify_token'] == access_token:
@@ -57,24 +46,24 @@ class WebhookView(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
     
-    def get_values(self, name):
-        for data_element in data.get('field_data'):
-            if data_element.get('name') == name:
-                return self.data_element.get('values')
-        return None
+#    def get_values(self, name):
+#        for data_element in data.get('field_data'):
+#            if data_element.get('name') == name:
+#                return self.data_element.get('values')
+#        return None
     
     def post(self, request, *args, **kwargs):
-        #incoming_lead = json.loads(self.request.body)
+        incoming_lead = json.loads(self.request.body)
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
-        #lead = Lead(lead_id)
-        #fields=[
-        #    Lead.Field.form_id, 
-        #    Lead.Field.created_time,
-        #    Lead.Field.id,
-        #    Lead.Field.field_data,
-        #    Lead.Field.ad_id,
-        #]
-        #data = lead.remote_read(fields=fields)
+        lead = Lead(lead_id)
+        fields=[
+            Lead.Field.form_id, 
+            Lead.Field.created_time,
+            Lead.Field.id,
+            Lead.Field.field_data,
+            Lead.Field.ad_id,
+        ]
+        data = lead.remote_read(fields=fields)
         first_name = self.get_values('first_name')[0]
         last_name = self.get_values('last_name')[0]
         email = self.get_values('email')[0]
@@ -88,12 +77,22 @@ class WebhookView(generic.View):
         ad_id = str(data['ad_id'])
         clients = User.objects.all()
         for client in clients:
-            client_email = client.email
-            client_first_name = client.first_name
-            client_last_name = client.last_name
-            if client.client.form_id == form_id:
-                if data:
-                    e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                    e.save()
-                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+            for entry in data['field_data']:
+                if entry['name'] == 'first_name':
+                    first_name = entry['values'][0]
+                elif entry['name'] == 'last_name':
+                    last_name = entry['values'][0]
+                elif entry['name'] == 'email':
+                    email = entry['values'][0]
+                else:
+                    entry['name'] == 'phone_number':
+                        telephone = entry['values'][0]
+                client_email = client.email
+                client_first_name = client.first_name
+                client_last_name = client.last_name
+                if client.client.form_id == form_id:
+                    if data:
+                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                        e.save()
+                        send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
