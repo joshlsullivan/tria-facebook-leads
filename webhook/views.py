@@ -84,9 +84,8 @@ class WebhookView(generic.View):
                     last_name = entry['values'][0]
                 elif entry['name'] == 'email':
                     email = entry['values'][0]
-                else:
-                    entry['name'] == 'phone_number':
-                        telephone = entry['values'][0]
+                elif entry['name'] == 'phone_number':
+                    telephone = entry['values'][0]
                 client_email = client.email
                 client_first_name = client.first_name
                 client_last_name = client.last_name
