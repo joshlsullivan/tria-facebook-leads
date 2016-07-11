@@ -49,7 +49,7 @@ class WebhookView(generic.View):
     def get_values(self, name):
         for data_element in data.get('field_data'):
             if data_element.get('name') == name:
-                return data_element.get('values')
+                return self.data_element.get('values')
         return None
     
     def post(self, request, *args, **kwargs):
