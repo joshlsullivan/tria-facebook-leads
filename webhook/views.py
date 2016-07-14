@@ -64,14 +64,6 @@ class WebhookView(generic.View):
             Lead.Field.ad_id,
         ]
         data = lead.remote_read(fields=fields)
-        #first_name = get_values('first_name')[0]
-        #last_name = get_values('last_name')[0]
-        #email = get_values('email')[0]
-        #telephone = get_values('phone_number')[0]
-        #first_name = data['field_data'][0]['values'][0].encode('utf-8')
-        #last_name = data['field_data'][1]['values'][0].encode('utf-8')
-        #email = data['field_data'][2]['values'][0].encode('utf-8')
-        #telephone = data['field_data'][3]['values'][0].encode('utf-8')
         leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
@@ -89,9 +81,8 @@ class WebhookView(generic.View):
                 client_email = client.email
                 client_first_name = client.first_name
                 client_last_name = client.last_name
-                if client.client.form_id == form_id:
-                    if data:
-                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                        e.save()
-                        send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+                if data:
+                    e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                    e.save()
+                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
