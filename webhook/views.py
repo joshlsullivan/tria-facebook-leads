@@ -81,8 +81,9 @@ class WebhookView(generic.View):
                 client_email = client.email
                 client_first_name = client.first_name
                 client_last_name = client.last_name
-                if data:
-                    e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                    e.save()
-                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+                if client.client.form_id == form_id:
+                    if data:
+                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                        e.save()
+                        send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
