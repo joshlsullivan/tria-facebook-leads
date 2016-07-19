@@ -78,6 +78,10 @@ class WebhookView(generic.View):
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
         clients = User.objects.all()
+        first_name = get_values('first_name')[0]
+        last_name = get_values('last_name')[0]
+        email = get_values('email')[0]
+        telephone = get_values('phone_number')[0]
         for client in clients:
             if data:
                 for entry in data['field_data']:
@@ -92,8 +96,8 @@ class WebhookView(generic.View):
                     client_email = client.email
                     client_first_name = client.first_name
                     client_last_name = client.last_name
-                    e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                    e.save()
                     if client.client.facebook_form_id == form_id:
+                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                        e.save()
                         send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
