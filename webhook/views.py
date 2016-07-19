@@ -50,7 +50,7 @@ def subscribe_mailchimp(mailchimp_dc, mailchimp_list, mailchimp_api, first_name,
         }
     )
 
-def get_values(name):
+def get_values(data, name):
     for data_element in data.get('field_data'):
         if data_element.get('name') == name:
             return data_element.get('values')
@@ -85,10 +85,10 @@ class WebhookView(generic.View):
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
         clients = User.objects.all()
-        first_name = get_values('first_name')[0]
-        last_name = get_values('last_name')[0]
-        email = get_values('email')[0]
-        telephone = get_values('phone_number')[0]
+        first_name = get_values(data, 'first_name')[0]
+        last_name = get_values(data, 'last_name')[0]
+        email = get_values(data, 'email')[0]
+        telephone = get_values(data, 'phone_number')[0]
         for client in clients:
             if data:
                 client_email = client.email
