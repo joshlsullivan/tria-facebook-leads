@@ -23,7 +23,7 @@ class Leads(models.Model):
     def get_client(self):
         all_clients = User.objects.all()
         for client in all_clients:
-            if self.form_id == client.client.form_id:
+            if self.form_id == client.client.facebook_form_id:
                 return ("%s %s" % (client.first_name, client.last_name))
             
     def __str__(self):

@@ -91,11 +91,20 @@ class WebhookView(generic.View):
         telephone = get_values('phone_number')[0]
         for client in clients:
             if data:
-                client_email = client.email
-                client_first_name = client.first_name
-                client_last_name = client.last_name
-                e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                e.save()
-                if client.client.facebook_form_id == form_id:
-                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+                for entry in data['field_data']:
+                    if entry['name'] == 'first_name':
+                        first_name = entry['values'][0]
+                    elif entry['name'] == 'last_name':
+                        last_name = entry['values'][0]
+                    elif entry['name'] == 'email':
+                        email = entry['values'][0]
+                    elif entry['name'] == 'phone_number':
+                        telephone = entry['values'][0]
+                    client_email = client.email
+                    client_first_name = client.first_name
+                    client_last_name = client.last_name
+                    if client.client.facebook_form_id == form_id:
+                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                        e.save()
+                        send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
