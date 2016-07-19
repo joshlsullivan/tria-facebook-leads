@@ -78,10 +78,6 @@ class WebhookView(generic.View):
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
         clients = User.objects.all()
-        first_name = get_values('first_name')[0]
-        last_name = get_values('last_name')[0]
-        email = get_values('email')[0]
-        telephone = get_values('phone_number')[0]
         for client in clients:
             if data:
                 for entry in data['field_data']:
