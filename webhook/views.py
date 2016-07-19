@@ -50,7 +50,7 @@ def subscribe_mailchimp(mailchimp_dc, mailchimp_list, mailchimp_api, first_name,
         }
     )
 
-def get_values(data, name):
+def get_values(name):
     for data_element in data.get('field_data'):
         if data_element.get('name') == name:
             return data_element.get('values')
