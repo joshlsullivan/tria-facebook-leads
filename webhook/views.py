@@ -38,21 +38,18 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
 def subscribe_mailchimp(c, client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
     url = "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/"
-    if c.client.has_mailchimp == True:
-        return requests.post(
-            url,
-            auth=('api', client_mailchimp_api),
-            data={
-                "email_address":email,
-                "status":"pending",
-                "merge_fields":{
-                    "FNAME":first_name,
-                    "LNAME":last_name,
-                }
+    return requests.post(
+        url,
+        auth=('api', client_mailchimp_api),
+        data={
+            "email_address":email,
+            "status":"pending",
+            "merge_fields":{
+                "FNAME":first_name,
+                "LNAME":last_name,
             }
-        )
-    else:
-        pass
+        }
+    )
 
 def get_values(data, name):
     for data_element in data.get('field_data'):
