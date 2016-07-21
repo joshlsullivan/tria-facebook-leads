@@ -35,7 +35,7 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         }
     )
 
-def subscribe_mailchimp(c, first_name, last_name, email):
+def subscribe_mailchimp(c, client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
     url = "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/"
     if c.client.has_mailchimp == True:
@@ -98,6 +98,9 @@ class WebhookView(View):
                 client_email = c.email
                 client_first_name = c.first_name
                 client_last_name = c.last_name
+                client_mailchimp_dc = c.client.mailchimp_dc
+                client_mailchimp_list = c.client.client_mailchimp_list
+                client_mailchimp_api - c.client.client_mailchimp_api
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
                 if c.client.facebook_form_id == form_id:
