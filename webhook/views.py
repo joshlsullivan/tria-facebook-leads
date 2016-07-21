@@ -110,7 +110,7 @@ class WebhookView(View):
                         client_first_name=client_first_name,
                         client_last_name=client_last_name
                     )
-                    if c.client.has_mailchimp == True:
+                    if c.client.has_mailchimp:
                         subscribe_mailchimp(
                             client_mailchimp_dc=client_mailchimp_dc,
                             client_mailchimp_list=client_mailchimp_list,
