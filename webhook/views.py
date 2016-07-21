@@ -100,7 +100,7 @@ class WebhookView(View):
                 client_last_name = c.last_name
                 client_mailchimp_dc = c.client.mailchimp_dc
                 client_mailchimp_list = c.client.mailchimp_list
-                client_mailchimp_api - c.client.mailchimp_api
+                client_mailchimp_api = c.client.mailchimp_api
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
                 if c.client.facebook_form_id == form_id:
