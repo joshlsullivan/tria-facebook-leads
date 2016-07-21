@@ -15,6 +15,6 @@ class ClientAdmin(admin.ModelAdmin):
         'mailchimp_api',
         'has_drivecentric',
     )
-    list_display = ('first_name', 'last_name')
+    list_display = ('first_name', 'last_name', 'email')
 
 admin.site.register(Client, ClientAdmin)
