@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 from client.models import Client
 from leads.models import Leads
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from facebookads.api import FacebookAdsApi
 from facebookads import objects
 from facebookads.adobjects.lead import Lead
@@ -88,15 +88,15 @@ class WebhookView(View):
         leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
-        clients = User.objects.all()
-        for c in clients:
+        clients = Client.objects.all()
+        for client in clients:
             if data:
-                client_email = c.email
-                client_first_name = c.first_name
-                client_last_name = c.last_name
-                client_mailchimp_dc = c.client.mailchimp_dc
-                client_mailchimp_list = c.client.mailchimp_list
-                client_mailchimp_api = c.client.mailchimp_api
+                client_email = client.email
+                client_first_name = client.first_name
+                client_last_name = client.last_name
+                client_mailchimp_dc = client.mailchimp_dc
+                client_mailchimp_list = client.mailchimp_list
+                client_mailchimp_api = client.mailchimp_api
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
                 if c.client.facebook_form_id == form_id:
