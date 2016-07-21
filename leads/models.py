@@ -9,7 +9,7 @@ from django.contrib import admin
 class Leads(models.Model):
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
-    email = models.EmailField(max_length=254, unique=True)
+    email = models.EmailField(max_length=254)
     telephone = models.CharField(max_length=120)
     form_id = models.CharField(max_length=120)
     leadgen_id = models.CharField(max_length=120)
