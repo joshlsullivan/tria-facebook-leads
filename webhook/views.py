@@ -3,7 +3,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import View
+from django.views import generic
+#from django.views.generic import View
 from client.models import Client
 from leads.models import Leads
 from django.contrib.auth.models import User
@@ -50,7 +51,7 @@ def subscribe_mailchimp(mailchimp_dc, mailchimp_list, mailchimp_api, first_name,
         }
     )
 
-class WebhookView(View):
+class WebhookView(generic.View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
         if self.request.GET['hub.verify_token'] == access_token:
