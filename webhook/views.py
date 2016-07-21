@@ -35,21 +35,23 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         }
     )
 
-def subscribe_mailchimp(client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
+def subscribe_mailchimp(c, client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
-    url = "https://" + str(client_mailchimp_dc) + ".api.mailchimp.com/3.0/lists/" + str(client_mailchimp_list) + "/members/"
-    return requests.post(
-        url,
-        auth=('api', str(client_mailchimp_api)),
-        data={
-            "email_address":str(email),
-            "status":"pending",
-            "merge_fields":{
-                "FNAME":str(first_name),
-                "LNAME":str(last_name),
+    if c.client.has_mailchimp:
+        return requests.post(
+            "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/",
+            auth=('api', client_mailchimp_api),
+            data={
+                "email_address": email,
+                "status": "pending",
+                "merge_fields": {
+                "FNAME": first_name,
+                "LNAME": last_name
+                }
             }
-        }
-    )
+        )
+    else:
+        print("No subscription sent.")
 
 def get_values(data, name):
     for data_element in data.get('field_data'):
@@ -110,13 +112,13 @@ class WebhookView(View):
                         client_first_name=client_first_name,
                         client_last_name=client_last_name
                     )
-                    if c.client.has_mailchimp:
-                        subscribe_mailchimp(
-                            client_mailchimp_dc=client_mailchimp_dc,
-                            client_mailchimp_list=client_mailchimp_list,
-                            client_mailchimp_api=client_mailchimp_api,
-                            first_name=first_name,
-                            last_name=last_name,
-                            email=email
+                    subscribe_mailchimp(
+                        c,
+                        client_mailchimp_dc=client_mailchimp_dc,
+                        client_mailchimp_list=client_mailchimp_list,
+                        client_mailchimp_api=client_mailchimp_api,
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email
                         )
         return HttpResponse()
