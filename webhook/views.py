@@ -37,16 +37,16 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
 
 def subscribe_mailchimp(client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
-    url = "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/"
+    url = "https://" + str(client_mailchimp_dc) + ".api.mailchimp.com/3.0/lists/" + str(client_mailchimp_list) + "/members/"
     return requests.post(
         url,
-        auth=('api', client_mailchimp_api),
+        auth=('api', str(client_mailchimp_api)),
         data={
-            "email_address":email,
+            "email_address":str(email),
             "status":"pending",
             "merge_fields":{
-                "FNAME":first_name,
-                "LNAME":last_name,
+                "FNAME":str(first_name),
+                "LNAME":str(last_name),
             }
         }
     )
@@ -101,6 +101,22 @@ class WebhookView(View):
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
                 if c.client.facebook_form_id == form_id:
-                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
-                    subscribe_mailchimp(client_mailchimp_dc=client_mailchimp_dc, client_mailchimp_list=client_mailchimp_list, client_mailchimp_api=client_mailchimp_api, first_name=first_name, last_name=last_name, email=email)
+                    send_tagged_message(
+                        client_email=client_email,
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        telephone=telephone,
+                        client_first_name=client_first_name,
+                        client_last_name=client_last_name
+                    )
+                    if c.client.has_mailchimp == True:
+                        subscribe_mailchimp(
+                            client_mailchimp_dc=client_mailchimp_dc,
+                            client_mailchimp_list=client_mailchimp_list,
+                            client_mailchimp_api=client_mailchimp_api,
+                            first_name=first_name,
+                            last_name=last_name,
+                            email=email
+                        )
         return HttpResponse()
