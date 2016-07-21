@@ -35,7 +35,7 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         }
     )
 
-def subscribe_mailchimp(first_name, last_name, email):
+def subscribe_mailchimp(c, first_name, last_name, email):
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
     url = "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/"
     client_mailchimp_dc = c.client.mailchimp_dc
@@ -54,6 +54,8 @@ def subscribe_mailchimp(first_name, last_name, email):
                 }
             }
         )
+    else:
+        pass
 
 def get_values(data, name):
     for data_element in data.get('field_data'):
