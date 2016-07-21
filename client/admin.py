@@ -16,5 +16,6 @@ class ClientAdmin(admin.ModelAdmin):
         'has_drivecentric',
     )
     list_display = ('first_name', 'last_name', 'email')
+    list_filter = ('date_added', )
 
 admin.site.register(Client, ClientAdmin)
