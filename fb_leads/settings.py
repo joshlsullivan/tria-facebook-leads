@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'fb_leads.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "fb_leads",
+        "NAME": "facebook_leads",
         "USER": "joshsullivan",
         "PASSWORD": "",
         "HOST": "localhost",

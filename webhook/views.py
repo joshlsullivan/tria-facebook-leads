@@ -3,8 +3,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views import generic
-#from django.views.generic import View
+#from django.views import generic
+from django.views.generic import View
 from client.models import Client
 from leads.models import Leads
 from django.contrib.auth.models import User
@@ -39,7 +39,7 @@ def subscribe_mailchimp(mailchimp_dc, mailchimp_list, mailchimp_api, first_name,
     #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
     url = "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/"
     return requests.post(
-        url, 
+        url,
         auth=('api', client_mailchimp_api),
         data={
             "email_address":email,
@@ -51,50 +51,61 @@ def subscribe_mailchimp(mailchimp_dc, mailchimp_list, mailchimp_api, first_name,
         }
     )
 
-class WebhookView(generic.View):
+def get_values(data, name):
+    for data_element in data.get('field_data'):
+        if data_element.get('name') == name:
+            return data_element.get('values')
+    return None
+
+class WebhookView(View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
         if self.request.GET['hub.verify_token'] == access_token:
             return HttpResponse(self.request.GET['hub.challenge'])
         else:
             return HttpResponse('Wrong verify token')
-        
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return generic.View.dispatch(self, request, *args, **kwargs)
+        #return generic.View.dispatch(self, request, *args, **kwargs)
+        return super(WebhookView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         incoming_lead = json.loads(self.request.body)
         lead_id = incoming_lead['entry'][0]['changes'][0]['value']['leadgen_id']
         lead = Lead(lead_id)
         fields=[
-            Lead.Field.form_id, 
+            Lead.Field.form_id,
             Lead.Field.created_time,
             Lead.Field.id,
             Lead.Field.field_data,
             Lead.Field.ad_id,
         ]
         data = lead.remote_read(fields=fields)
+        first_name = get_values(data, 'first_name')[0]
+        last_name = get_values(data, 'last_name')[0]
+        email = get_values(data, 'email')[0]
+        telephone = get_values(data, 'phone_number')[0]
+#        for entry in data['field_data']:
+#            if entry['name'] == 'first_name':
+#                first_name = entry['values'][0]
+#            elif entry['name'] == 'last_name':
+#                last_name = entry['values'][0]
+#            elif entry['name'] == 'email':
+#                email = entry['values'][0]
+#            elif entry['name'] == 'phone_number':
+#                telephone = entry['values'][0]
         leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
         clients = User.objects.all()
         for client in clients:
             if data:
-                for entry in data['field_data']:
-                    if entry['name'] == 'first_name':
-                        first_name = entry['values'][0]
-                    elif entry['name'] == 'last_name':
-                        last_name = entry['values'][0]
-                    elif entry['name'] == 'email':
-                        email = entry['values'][0]
-                    elif entry['name'] == 'phone_number':
-                        telephone = entry['values'][0]
-                    client_email = client.email
-                    client_first_name = client.first_name
-                    client_last_name = client.last_name
-                    if client.client.facebook_form_id == form_id:
-                        e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
-                        e.save()
-                        send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+                client_email = client.email
+                client_first_name = client.first_name
+                client_last_name = client.last_name
+                e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
+                e.save()
+                if client.client.facebook_form_id == form_id:
+                    send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
         return HttpResponse()
