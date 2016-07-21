@@ -103,5 +103,5 @@ class WebhookView(View):
                 if c.client.facebook_form_id == form_id:
                     send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
                     if c.client.has_mailchimp == True:
-                        subscribe_mailchimp(client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email)
+                        subscribe_mailchimp(client_mailchimp_dc=client_mailchimp_dc, client_mailchimp_list=client_mailchimp_list, client_mailchimp_api=client_mailchimp_api, first_name=first_name, last_name=last_name, email=email)
         return HttpResponse()
