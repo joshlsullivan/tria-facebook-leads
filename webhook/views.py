@@ -22,7 +22,10 @@ FacebookAdsApi.init(app_id, app_secret, access_token)
 
 mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
 
-keen.count("signups", timeframe="this_14_days")
+client.add_event("sign_ups", {
+    "username": "lloyd",
+    "referred_by": "harry"
+}
 
 @xframe_options_exempt
 def send_tagged_message(client_email, first_name, last_name, email, telephone, client_first_name, client_last_name):
