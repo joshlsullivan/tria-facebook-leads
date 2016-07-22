@@ -13,7 +13,6 @@ from facebookads import objects
 from facebookads.adobjects.lead import Lead
 import json
 import requests
-import keen
 
 app_id = '156847384730697'
 app_secret = 'b62effe5ff8631745b15ce56ba38ea8b'
@@ -21,11 +20,6 @@ access_token = 'EAACOpuCmnEkBAAmZABKnaQPMWSaVu48SQv52sw3iW32iYCCI9komXVuobrhWjfP
 FacebookAdsApi.init(app_id, app_secret, access_token)
 
 mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
-
-client.add_event("sign_ups", {
-    "username": "lloyd",
-    "referred_by": "harry"
-}
 
 @xframe_options_exempt
 def send_tagged_message(client_email, first_name, last_name, email, telephone, client_first_name, client_last_name):
