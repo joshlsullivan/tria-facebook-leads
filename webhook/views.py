@@ -99,7 +99,7 @@ class WebhookView(View):
                 client_mailchimp_api = client.mailchimp_api
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
-                if c.client.facebook_form_id == form_id:
+                if client.facebook_form_id == form_id:
                     send_tagged_message(
                         client_email=client_email,
                         first_name=first_name,
