@@ -31,7 +31,8 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
             "to": client_email,
             "subject": "New Lead - {0} {1}".format(first_name, last_name),
             "text": "Hi there, you have a new lead. Here's the info: \n First name: {0} \n Last name: {1} \n Email: {2} \n Telephone: {3} \n\n -Josh Sullivan".format(first_name, last_name, email, telephone),
-            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads"]
+            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads"],
+            "o:tracking": True
         }
     )
 
