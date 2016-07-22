@@ -14,6 +14,7 @@ class Leads(models.Model):
     leadgen_id = models.CharField(max_length=120)
     ad_id = models.CharField(max_length=120)
     date_created = models.DateTimeField(auto_now_add=True)
+    has_contacted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = "Leads"
