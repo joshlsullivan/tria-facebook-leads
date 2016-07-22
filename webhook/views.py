@@ -90,7 +90,7 @@ class WebhookView(View):
         ad_id = str(data['ad_id'])
         clients = Client.objects.all()
         for client in clients:
-            if data:
+            if client.facebook_form_id == form_id:
                 client_email = client.email
                 client_first_name = client.first_name
                 client_last_name = client.last_name
@@ -99,14 +99,7 @@ class WebhookView(View):
                 client_mailchimp_api = client.mailchimp_api
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
-                if client.facebook_form_id == form_id:
-                    send_tagged_message(
-                        client_email=client_email,
-                        first_name=first_name,
-                        last_name=last_name,
-                        email=email,
-                        telephone=telephone,
-                        client_first_name=client_first_name,
-                        client_last_name=client_last_name
-                    )
+                send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+            else:
+                print("Your not a client in our database.")
         return HttpResponse()
