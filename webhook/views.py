@@ -102,7 +102,7 @@ class WebhookView(View):
         last_name = get_values(data, 'last_name')[0]
         email = get_values(data, 'email')[0]
         telephone = get_values(data, 'phone_number')[0]
-        time_of_lead = get_values(data, 'created_time')[0]
+        time_of_lead = str(data['created_time'])
         leadgen_id = str(data['id'])
         form_id = str(data['form_id'])
         ad_id = str(data['ad_id'])
