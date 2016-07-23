@@ -18,6 +18,7 @@ class Client(models.Model):
     mailchimp_list = models.CharField(max_length=120, blank=True)
     mailchimp_api = models.CharField(max_length=120, blank=True)
     has_drivecentric = models.BooleanField(default=False)
+    drivecentric_email = models.EmailField(max_length=254, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

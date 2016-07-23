@@ -14,6 +14,7 @@ class ClientAdmin(admin.ModelAdmin):
         'mailchimp_list',
         'mailchimp_api',
         'has_drivecentric',
+        'drivecentric_email',
     )
     list_display = ('first_name', 'last_name', 'email', 'company')
     list_filter = ('date_added', )
