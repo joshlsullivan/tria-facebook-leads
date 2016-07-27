@@ -15,13 +15,7 @@ from facebookads.adobjects.lead import Lead
 import json
 import requests
 
-#app_id = '156847384730697'
-#app_secret = 'b62effe5ff8631745b15ce56ba38ea8b'
-#access_token = 'EAACOpuCmnEkBAAmZABKnaQPMWSaVu48SQv52sw3iW32iYCCI9komXVuobrhWjfPEvg3M0DmiKAKnU2WSzyaDQDIDAZCqihoQMDFcjRlahkDCl5TEddX1UGrYvfnvorh0vMJ2yF74ZAI3mtHN28t'
-#FacebookAdsApi.init(app_id, app_secret, access_token)
 FacebookAdsApi.init(settings.APP_ID, settings.APP_SECRET, settings.ACCESS_TOKEN)
-
-#mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
 
 @xframe_options_exempt
 def send_tagged_message(client_email, first_name, last_name, email, telephone, client_first_name, client_last_name):
