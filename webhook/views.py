@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.utils.decorators import method_decorator
@@ -14,18 +15,19 @@ from facebookads.adobjects.lead import Lead
 import json
 import requests
 
-app_id = '156847384730697'
-app_secret = 'b62effe5ff8631745b15ce56ba38ea8b'
-access_token = 'EAACOpuCmnEkBAAmZABKnaQPMWSaVu48SQv52sw3iW32iYCCI9komXVuobrhWjfPEvg3M0DmiKAKnU2WSzyaDQDIDAZCqihoQMDFcjRlahkDCl5TEddX1UGrYvfnvorh0vMJ2yF74ZAI3mtHN28t'
-FacebookAdsApi.init(app_id, app_secret, access_token)
+#app_id = '156847384730697'
+#app_secret = 'b62effe5ff8631745b15ce56ba38ea8b'
+#access_token = 'EAACOpuCmnEkBAAmZABKnaQPMWSaVu48SQv52sw3iW32iYCCI9komXVuobrhWjfPEvg3M0DmiKAKnU2WSzyaDQDIDAZCqihoQMDFcjRlahkDCl5TEddX1UGrYvfnvorh0vMJ2yF74ZAI3mtHN28t'
+#FacebookAdsApi.init(app_id, app_secret, access_token)
+FacebookAdsApi.init(APP_ID, APP_SECRET, ACCESS_TOKEN)
 
-mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
+#mg_api = 'key-640ad1685e02f6f088b805eaf2f1db66'
 
 @xframe_options_exempt
 def send_tagged_message(client_email, first_name, last_name, email, telephone, client_first_name, client_last_name):
     return requests.post(
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
-        auth=("api", mg_api),
+        auth=("api", MG_API),
         data={
             "from": "Josh Sullivan <josh@magnolia.technology>",
             "to": client_email,
@@ -39,7 +41,7 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
 def send_drivecentric_email(client_drivecentric_email, client_email, first_name, last_name, time_of_lead, telephone, email, client_first_name, client_last_name):
     return requests.post(
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
-        auth=("api", mg_api),
+        auth=("api", MG_API),
         data={
             "from": "Josh Sullivan <josh@magnolia.technology>",
             "to": client_drivecentric_email,

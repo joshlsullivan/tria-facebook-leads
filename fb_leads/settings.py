@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -144,3 +144,9 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# API Keys
+APP_ID = os.environ['APP_ID']
+APP_SECRET = os.environ['APP_SECRET']
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+MG_API = os.environ['MG_API']
