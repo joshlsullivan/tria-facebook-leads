@@ -72,7 +72,7 @@ def get_values(data, name):
 class WebhookView(View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
-        if self.request.GET['hub.verify_token'] == access_token:
+        if self.request.GET['hub.verify_token'] == ACCESS_TOKEN:
             return HttpResponse(self.request.GET['hub.challenge'])
         else:
             return HttpResponse('Wrong verify token')
