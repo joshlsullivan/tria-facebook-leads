@@ -118,6 +118,6 @@ class WebhookView(View):
                     send_adf_email(client_adf_email=client_adf_email, time_of_lead=time_of_lead, client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
                 else:
                     send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
-            else:
-                print("Your not a client in our database.")
+#            else:
+#                print("Your not a client in our database.")
         return HttpResponse()
