@@ -68,6 +68,7 @@ def get_values(data, name):
             return data_element.get('values')
     return None
 
+@method_decorator(csrf_exempt, name='dispatch')
 class WebhookView(View):
     #Verifies the toke with Facebook app
     def get(self, request, *args, **kwargs):
@@ -76,10 +77,10 @@ class WebhookView(View):
         else:
             return HttpResponse('Wrong verify token')
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        #return generic.View.dispatch(self, request, *args, **kwargs)
-        return super(WebhookView, self).dispatch(request, *args, **kwargs)
+#    @method_decorator(csrf_exempt)
+#    def dispatch(self, request, *args, **kwargs):
+#        #return generic.View.dispatch(self, request, *args, **kwargs)
+#        return super(WebhookView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         incoming_lead = json.loads(self.request.body)
