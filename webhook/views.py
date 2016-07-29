@@ -32,18 +32,18 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
     )
 
 @xframe_options_exempt
-def send_drivecentric_email(client_drivecentric_email, client_email, first_name, last_name, time_of_lead, telephone, email, client_first_name, client_last_name):
+def send_adf_email(client_adf_email, client_email, first_name, last_name, time_of_lead, telephone, email, client_first_name, client_last_name):
     business_name = "Magnolia Tech Facebook"
     return requests.post(
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
         auth=("api", settings.MG_API),
         data={
             "from": "Josh Sullivan <josh@magnolia.technology>",
-            "to": client_drivecentric_email,
+            "to": client_adf_email,
             "cc": client_email,
             "subject": "New Lead - {0} {1}".format(first_name, last_name),
             "text":'<?xml version="1.0" encoding="UTF-8"?><?adf version="1.0"?><adf><prospect><requestdate>' + time_of_lead + '</requestdate><customer><contact><name part="first">' + first_name + '</name><name part="last">' + last_name + '</name><phone>' + telephone + '</phone><email>' + email + '</email></contact></customer><vendor><contact><name part="full">' + business_name + '</name></contact></vendor></prospect></adf>',
-            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads_drivecentric"],
+            "o:tag": ["{0}-{1}".format(client_first_name, client_last_name).lower(), "facebook_leads_adf"],
         }
     )
 
@@ -110,11 +110,11 @@ class WebhookView(View):
                 client_mailchimp_dc = client.mailchimp_dc
                 client_mailchimp_list = client.mailchimp_list
                 client_mailchimp_api = client.mailchimp_api
-                client_drivecentric_email = client.drivecentric_email
+                client_adf_email = client.adf_email
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
-                if client.has_drivecentric:
-                    send_drivecentric_email(client_drivecentric_email=client_drivecentric_email, time_of_lead=time_of_lead, client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
+                if client.has_adf_crm:
+                    send_adf_email(client_adf_email=client_adf_email, time_of_lead=time_of_lead, client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
                 else:
                     send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
             else:
