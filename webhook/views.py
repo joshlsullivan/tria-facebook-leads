@@ -116,9 +116,9 @@ class WebhookView(View):
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
                 keen.add_event("new_lead", {
-                    "name": "{0} {1}".format(lead.first_name, lead.last_name),
-                    "email": "{}".format(lead.email),
-                    "form id": "{}".format(lead.form_id),
+                    "name": "{0} {1}".format(first_name, last_name),
+                    "email": "{}".format(email),
+                    "form id": "{}".format(form_id),
                 })
                 if client.has_adf_crm:
                     send_adf_email(client_adf_email=client_adf_email, time_of_lead=time_of_lead, client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
