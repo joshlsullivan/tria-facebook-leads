@@ -119,11 +119,13 @@ class WebhookView(View):
                     "lead name": "{} {}".format(first_name, last_name),
                     "email": "{}".format(email),
                     "client name": "{} {}".format(client_first_name, client_last_name),
+                    "form id": "{}".format(form_id),
+                    "ad id": "{}".format(ad_id),
                 })
                 if client.has_adf_crm:
                     send_adf_email(client_adf_email=client_adf_email, time_of_lead=time_of_lead, client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
                 else:
                     send_tagged_message(client_email=client_email, first_name=first_name, last_name=last_name, email=email, telephone=telephone, client_first_name=client_first_name, client_last_name=client_last_name)
-#            else:
-#                print("Your not a client in our database.")
+            else:
+                print("Your not a client in our database.")
         return HttpResponse()
