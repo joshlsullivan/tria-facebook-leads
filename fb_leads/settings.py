@@ -145,8 +145,17 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# API Keys
+############
+# API Keys #
+############
+# Facebook api keys
 APP_ID = os.environ['APP_ID']
 APP_SECRET = os.environ['APP_SECRET']
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+# Mailgun api keys
 MG_API = os.environ['MG_API']
+# Keen api keys
+KEEN_PROJECT_ID = os.environ['KEEN_PROJECT_ID']
+KEEN_WRITE_KEY = os.environ['KEEN_WRITE_KEY']
+KEEN_READ_KEY = os.environ['KEEN_READ_KEY']
+KEEN_MASTER_KEY = os.environ['KEEN_MASTER_KEY']

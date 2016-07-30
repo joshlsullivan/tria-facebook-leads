@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Leads
 from client.models import Client
 from django.utils import timezone
+import keen
 
 def index(request):
     all_leads = Leads.objects.all()
@@ -26,3 +27,12 @@ def detail(request, get_leadgen_id):
     }
     return render(request, 'leads/detail.html', context)
 
+def record_events(request):
+    all_leads = Leads.objects.all()
+    for lead in all_leads:
+        keen.add_event("new_leads", {
+            "name": "{0} {1}".format(lead.first_name, lead.last_name)
+            "email": "{}".format(lead.email)
+            "form id": '"{}"'.format(lead.form_id)
+        })
+        return lead
