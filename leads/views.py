@@ -26,13 +26,3 @@ def detail(request, get_leadgen_id):
         'newlead': newlead,
     }
     return render(request, 'leads/detail.html', context)
-
-def record_events(request):
-    all_leads = Leads.objects.all()
-    for lead in all_leads:
-        keen.add_event("new_leads", {
-            "name": "{0} {1}".format(lead.first_name, lead.last_name),
-            "email": "{}".format(lead.email),
-            "form id": '"{}"'.format(lead.form_id),
-        })
-        return lead
