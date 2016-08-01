@@ -34,7 +34,7 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
 
 @xframe_options_exempt
 def send_adf_email(client_adf_email, client_email, first_name, last_name, time_of_lead, telephone, email, client_first_name, client_last_name):
-    business_name = "Magnolia Tech Facebook"
+    business_name = "Tria Agency"
     return requests.post(
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
         auth=("api", settings.MG_API),
