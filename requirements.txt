@@ -1,5 +1,6 @@
 dj-database-url==0.4.1
 Django==1.9.8
+django-cors-headers==1.1.0
 facebookads==2.7.1
 gunicorn==19.6.0
 keen==0.3.24
