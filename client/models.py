@@ -11,6 +11,7 @@ class Client(models.Model):
     email = models.EmailField(max_length=254)
     cell_phone = models.CharField(max_length=(12), blank=True)
     company = models.CharField(max_length=120, blank=True)
+    facebook_page_id = models.CharField(max_length=120, blank=True)
     #Renamed from form_id to facebook_form_id
     facebook_form_id = models.CharField(max_length=120)
     has_mailchimp = models.BooleanField(default=False) #Mailchimp user
