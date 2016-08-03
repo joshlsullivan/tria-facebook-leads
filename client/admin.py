@@ -8,6 +8,7 @@ class ClientAdmin(admin.ModelAdmin):
         'email',
         'cell_phone',
         'company',
+        'facebook_page_id',
         'facebook_form_id',
         'has_mailchimp',
         'mailchimp_dc',
