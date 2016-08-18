@@ -24,7 +24,7 @@ def send_tagged_message(client_email, first_name, last_name, email, telephone, c
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
         auth=("api", settings.MG_API),
         data={
-            "from": "Josh Sullivan <josh@magnolia.technology>",
+            "from": "Josh Sullivan <josh@tria.agency>",
             "to": client_email,
             "subject": "New Lead - {0} {1}".format(first_name, last_name),
             "text": "Hi there, you have a new lead. Here's the info: \n First name: {0} \n Last name: {1} \n Email: {2} \n Telephone: {3} \n\n -Josh Sullivan".format(first_name, last_name, email, telephone),
@@ -39,7 +39,7 @@ def send_adf_email(client_adf_email, client_email, first_name, last_name, time_o
         "https://api.mailgun.net/v3/mg.magnolia.technology/messages",
         auth=("api", settings.MG_API),
         data={
-            "from": "Josh Sullivan <josh@magnolia.technology>",
+            "from": "Josh Sullivan <josh@tria.agency>",
             "to": client_adf_email,
             "cc": client_email,
             "subject": "New Lead - {0} {1}".format(first_name, last_name),
