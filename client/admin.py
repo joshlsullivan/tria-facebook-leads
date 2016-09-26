@@ -10,10 +10,6 @@ class ClientAdmin(admin.ModelAdmin):
         'company',
         'facebook_page_id',
         'facebook_form_id',
-        'has_mailchimp',
-        'mailchimp_dc',
-        'mailchimp_list',
-        'mailchimp_api',
         'has_adf_crm',
         'adf_email',
     )
