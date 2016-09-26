@@ -48,21 +48,6 @@ def send_adf_email(client_adf_email, client_email, first_name, last_name, time_o
         }
     )
 
-def subscribe_mailchimp(client_mailchimp_dc, client_mailchimp_list, client_mailchimp_api, first_name, last_name, email):
-    #mailchim_dc referes to the mailchimp datacenter in api e.g. us5
-    return requests.post(
-        "https://" + client_mailchimp_dc + ".api.mailchimp.com/3.0/lists/" + client_mailchimp_list + "/members/",
-        auth=('api', client_mailchimp_api),
-        data={
-            "email_address": email,
-            "status": "pending",
-            "merge_fields": {
-            "FNAME": first_name,
-            "LNAME": last_name
-            }
-        }
-    )
-
 def get_values(data, name):
     for data_element in data.get('field_data'):
         if data_element.get('name') == name:
@@ -109,9 +94,6 @@ class WebhookView(View):
                 client_email = client.email
                 client_first_name = client.first_name
                 client_last_name = client.last_name
-                client_mailchimp_dc = client.mailchimp_dc
-                client_mailchimp_list = client.mailchimp_list
-                client_mailchimp_api = client.mailchimp_api
                 client_adf_email = client.adf_email
                 e = Leads(first_name=first_name, last_name=last_name, email=email, telephone=telephone, form_id=form_id, leadgen_id=leadgen_id, ad_id=ad_id)
                 e.save()
