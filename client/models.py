@@ -14,13 +14,9 @@ class Client(models.Model):
     facebook_page_id = models.CharField(max_length=120, blank=True)
     #Renamed from form_id to facebook_form_id
     facebook_form_id = models.CharField(max_length=120)
-    has_mailchimp = models.BooleanField(default=False) #Mailchimp user
-    mailchimp_dc = models.CharField(max_length=120, blank=True)
-    mailchimp_list = models.CharField(max_length=120, blank=True)
-    mailchimp_api = models.CharField(max_length=120, blank=True)
     has_adf_crm = models.BooleanField(default=False)
     adf_email = models.EmailField(max_length=254, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.cell_phone
+        return "{0} {1}".format(self.first_name, self.last_name)
