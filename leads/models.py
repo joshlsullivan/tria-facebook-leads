@@ -26,4 +26,4 @@ class Leads(models.Model):
                 return "{0} {1}".format(client.first_name, client.last_name)
 
     def __str__(self):
-        return self.email
+        return "{0} {1}".format(self.first_name, self.last_name)
