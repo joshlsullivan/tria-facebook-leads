@@ -24,5 +24,5 @@ urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^webhook/', include('webhook.urls')),
-    url(r'^leads/', include('leads.urls')),
+    #url(r'^leads/', include('leads.urls')),
 ]
