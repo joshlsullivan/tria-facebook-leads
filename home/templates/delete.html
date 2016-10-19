@@ -57,7 +57,7 @@
           li.className = "list-group-item"
           var a = document.createElement('a');
           a.href = "#";
-          a.onclick = subscribeApp.bind(this, page.id, page.access_token);
+          a.onclick = unSubscribeApp.bind(this, page.id, page.access_token);
           a.innerHTML = page.name;
           li.appendChild(a);
           ul.appendChild(li);

@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from webhook import views
 from leads import views
-from home.views import HomeView
+from home.views import HomeView, DeleteAppView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view()),
@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^webhook/', include('webhook.urls')),
     #url(r'^leads/', include('leads.urls')),
+    url(r'^delete/$', DeleteAppView.as_view()),
 ]
